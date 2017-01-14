@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="kk.qisheng.talkrobot.ui.activity.SpeakerListActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/top_bar"
+        android:gravity="center"
+        android:text="机器人声音"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <android.widget.ExpandableListView
+        android:id="@+id/el_speaker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:scrollbars="none" />
+
+</LinearLayout>
