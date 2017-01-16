@@ -17,6 +17,8 @@ import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import kk.qisheng.talkrobot.R;
 import kk.qisheng.talkrobot.bean.TalkMsg;
@@ -104,7 +106,7 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
                 showSpeakDialog();
                 break;
             case R.id.iv_setting:
-                startActivity(new Intent(this,SettingActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
 
         }
@@ -158,15 +160,25 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    protected void addMsg(int who, String msg) {
+    private void addMsg(int who, String msg) {
         TalkMsg talkMsg = new TalkMsg();
         talkMsg.setWho(who);
         talkMsg.setMsg(msg);
         talkMsg.setTime((int) (System.currentTimeMillis() / 1000));
 
         mTalkList.add(talkMsg);
-        mAdapter.notifyDataSetChanged();
+        notifyDataChange(mTalkList);
         lvTalk.setSelection(mTalkList.size() - 1);
+    }
+
+    private void notifyDataChange(ArrayList<TalkMsg> list) {
+        Collections.sort(list, new Comparator<TalkMsg>() {
+            @Override
+            public int compare(TalkMsg lhs, TalkMsg rhs) {
+                return lhs.getTime() - rhs.getTime();
+            }
+        });
+        mAdapter.notifyDataSetChanged();
     }
 
 

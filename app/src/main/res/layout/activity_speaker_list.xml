@@ -13,7 +13,7 @@
         android:layout_height="48dp"
         android:background="@color/top_bar"
         android:gravity="center"
-        android:text="机器人声音"
+        android:text="选择一个声音"
         android:textColor="@color/white"
         android:textSize="20sp" />
 
