@@ -81,7 +81,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingRight="12dp"
             android:src="@drawable/arrow_next" />
     </RelativeLayout>
 
@@ -117,7 +117,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingRight="12dp"
             android:src="@drawable/arrow_next" />
     </RelativeLayout>
 
