@@ -31,7 +31,7 @@ public class ExceptionEngine {
 
         if (e instanceof UnknownHostException) {
             ex = new ApiException(e, ERROR.HTTP_ERROR);
-            ex.message = "你的网络开小差了，请检查一下...";  //网络错误
+            ex.message = "你的网络开小差了，检查一下吧...";  //网络错误
             return ex;
 
         } else if (e instanceof HttpException) {             //HTTP错误
@@ -47,7 +47,7 @@ public class ExceptionEngine {
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
                 default:
-                    ex.message = "你的网络开小差了，请检查一下...";  //均视为网络错误
+                    ex.message = "你的网络开小差了，检查一下吧...";  //均视为网络错误
                     break;
             }
             return ex;
@@ -68,7 +68,7 @@ public class ExceptionEngine {
 
         } else if (e instanceof ConnectException) {
             ex = new ApiException(e, ERROR.NETWORD_ERROR);
-            ex.message = "你的网络开小差了，请检查一下...";  //连接失败
+            ex.message = "你的网络开小差了，检查一下吧...";  //连接失败
             return ex;
 
         } else {

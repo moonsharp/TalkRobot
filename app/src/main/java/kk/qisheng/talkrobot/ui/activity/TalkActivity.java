@@ -1,5 +1,6 @@
 package kk.qisheng.talkrobot.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -21,8 +22,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import kk.qisheng.talkrobot.R;
-import kk.qisheng.talkrobot.bean.TalkMsg;
 import kk.qisheng.talkrobot.config.AppConfig;
+import kk.qisheng.talkrobot.db.DaoHelper;
+import kk.qisheng.talkrobot.db.TalkMsg;
 import kk.qisheng.talkrobot.mvp.contact.JuheContact;
 import kk.qisheng.talkrobot.mvp.presenter.JuhePresenter;
 import kk.qisheng.talkrobot.ui.adapter.TalkListAdapter;
@@ -42,25 +44,23 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
 
     private TalkListAdapter mAdapter;
     private ArrayList<TalkMsg> mTalkList = new ArrayList<>();
+    private ArrayList<TalkMsg> mDbList = new ArrayList<>();
 
     private String mMyMsg;
     private long mFirstTime;
     private LoadingDialog mLoading;
     private JuhePresenter mPresenter;
+    private DaoHelper<TalkMsg> mDaoHelper;
 
     @Override
     public void setContentLayout() {
         setContentView(R.layout.activity_talk);
 
-        initData();
         initView();
-        setData();
+        initData();
         initPresenter();
     }
 
-    private void initData() {
-        mAdapter = new TalkListAdapter(this, mTalkList);
-    }
 
     private void initView() {
         mLoading = new LoadingDialog(this, "机器人思考中...");
@@ -74,13 +74,15 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
         tvSend.setOnClickListener(this);
         ivSpeak.setOnClickListener(this);
         findViewById(R.id.iv_setting).setOnClickListener(this);
-
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
-    private void setData() {
+    private void initData() {
+        mDaoHelper = new DaoHelper<>();
+        mDbList = (ArrayList<TalkMsg>) mDaoHelper.listAll(TalkMsg.class);
+        if (mDbList != null && mDbList.size() > 0) mTalkList = mDbList;
+        mAdapter = new TalkListAdapter(this, mTalkList);
         lvTalk.setAdapter(mAdapter);
+        notifyDataChange(mTalkList);
     }
 
     private void initPresenter() {
@@ -106,9 +108,18 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
                 showSpeakDialog();
                 break;
             case R.id.iv_setting:
-                startActivity(new Intent(this, SettingActivity.class));
+                startActivityForResult(new Intent(this, SettingActivity.class), 0x001);
                 break;
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0x001 && resultCode == Activity.RESULT_OK) {
+            mTalkList = new ArrayList<>();
+            notifyDataChange(mTalkList);
         }
     }
 
@@ -168,7 +179,7 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
 
         mTalkList.add(talkMsg);
         notifyDataChange(mTalkList);
-        lvTalk.setSelection(mTalkList.size() - 1);
+        mDaoHelper.insert(talkMsg);
     }
 
     private void notifyDataChange(ArrayList<TalkMsg> list) {
@@ -178,7 +189,11 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
                 return lhs.getTime() - rhs.getTime();
             }
         });
-        mAdapter.notifyDataSetChanged();
+        LogUtils.d("notifyDataChange: " + mTalkList.size());
+        mAdapter.refreshData(list);
+        if (mTalkList.size() > 0) {
+            lvTalk.setSelection(mTalkList.size() - 1);
+        }
     }
 
 

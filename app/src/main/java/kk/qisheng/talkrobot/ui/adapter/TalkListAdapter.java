@@ -12,8 +12,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import kk.qisheng.talkrobot.R;
-import kk.qisheng.talkrobot.bean.TalkMsg;
 import kk.qisheng.talkrobot.config.AppConfig;
+import kk.qisheng.talkrobot.db.TalkMsg;
 
 /**
  * Created by KkQisheng on 2017/1/13.
@@ -28,6 +28,11 @@ public class TalkListAdapter extends BaseAdapter {
         super();
         this.mContext = context;
         this.mData = list;
+    }
+
+    public void refreshData(ArrayList<TalkMsg> list) {
+        mData = list;
+        notifyDataSetChanged();
     }
 
     @Override

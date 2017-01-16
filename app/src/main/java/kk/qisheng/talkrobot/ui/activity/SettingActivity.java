@@ -1,10 +1,15 @@
 package kk.qisheng.talkrobot.ui.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import kk.qisheng.talkrobot.R;
+import kk.qisheng.talkrobot.db.DaoHelper;
+import kk.qisheng.talkrobot.db.TalkMsg;
 import kk.qisheng.talkrobot.utils.MscSpeakUtils;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
@@ -21,6 +26,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvSpaker = (TextView) findViewById(R.id.tv_speaker);
 
         findViewById(R.id.rl_change_speaker).setOnClickListener(this);
+        findViewById(R.id.tv_clear).setOnClickListener(this);
     }
 
     @Override
@@ -29,7 +35,25 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.rl_change_speaker:
                 goSpeakerListActivity();
                 break;
+
+            case R.id.tv_clear:
+                showDelDialog();
+                break;
         }
+    }
+
+    private void showDelDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage("确定要清空所有的聊天记录吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new DaoHelper<TalkMsg>().deleteAll(TalkMsg.class);
+                        setResult(Activity.RESULT_OK);
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     private void goSpeakerListActivity() {

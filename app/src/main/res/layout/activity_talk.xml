@@ -82,7 +82,7 @@
     <ListView
         android:id="@+id/lv_talk"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/ll_bottom"
         android:layout_below="@id/rl_title"
         android:divider="@null"

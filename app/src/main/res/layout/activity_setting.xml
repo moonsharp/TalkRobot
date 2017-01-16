@@ -51,6 +51,80 @@
 
     <include layout="@layout/include_common_line3" />
 
+    <RelativeLayout
+        android:id="@+id/rl_my_hdader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_white_gray"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="7dp"
+            android:text="我的头像"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_my_header"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_me_next"
+            android:src="@drawable/header_me" />
+
+        <ImageView
+            android:id="@+id/iv_me_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/arrow_next" />
+    </RelativeLayout>
+
+    <include layout="@layout/include_common_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_robot_hdader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_white_gray"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="7dp"
+            android:text="机器人头像"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_robot_header"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_robot_next"
+            android:src="@drawable/header_robot" />
+
+        <ImageView
+            android:id="@+id/iv_robot_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/arrow_next" />
+    </RelativeLayout>
+
+    <include layout="@layout/include_common_line" />
+
+
+    <include layout="@layout/include_common_line3" />
     <TextView
         android:id="@+id/tv_clear"
         android:layout_width="match_parent"

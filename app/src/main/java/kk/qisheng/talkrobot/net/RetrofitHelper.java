@@ -47,7 +47,7 @@ public class RetrofitHelper {
         if (mService == null) {
             new RetrofitHelper();
         }
-        return mService.getRobotResponse(AppConfig.JUHE_APP_KEY, info)
+        return mService.getRobotResponse(AppConfig.JUHE_APP_KEY,info)
                 .map(new ServerResponseFunc<JuheResult>())
                 .onErrorResumeNext(new HttpResponseFunc<JuheResult>());
     }
