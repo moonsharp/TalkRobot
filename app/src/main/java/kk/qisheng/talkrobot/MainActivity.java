@@ -4,12 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import kk.qisheng.talkrobot.mvp.contact.JuheContact;
-import kk.qisheng.talkrobot.mvp.presenter.JuhePresenter;
+import kk.qisheng.talkrobot.mvp.contact.TalkViewContact;
+import kk.qisheng.talkrobot.mvp.presenter.ApiPresenter;
 import kk.qisheng.talkrobot.utils.LogUtils;
 
 public class MainActivity extends AppCompatActivity {
-    private JuhePresenter mPresenter;
+    private ApiPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initPresenter() {
-        mPresenter = new JuhePresenter(new JuheContact() {
+        mPresenter = new ApiPresenter(new TalkViewContact() {
             @Override
             public void onGetRobotResponseSuccess(String info) {
                 LogUtils.d("onGetRobotResponseSuccess: " + info);

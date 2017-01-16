@@ -115,6 +115,7 @@ public class SpeakerListAdapter extends BaseExpandableListAdapter {
                 MscSpeakUtils.setSpeakerConfig(mContext, speaker.getConfig());
                 MscSpeakUtils.setSpeakerName(mContext, speaker.getName());
                 MscSpeakUtils.setSpeakerType(mContext, speaker.getType());
+                MscSpeakUtils.setSpeakerLanguage(mContext, speaker.getLanguage());
                 notifyDataSetChanged();
             }
         });

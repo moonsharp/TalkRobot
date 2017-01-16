@@ -76,32 +76,32 @@ public class MscSpeakUtils {
     public static ArrayList<SpeakerType> initSpeaker(Context context) {
 
         ArrayList<MscSpeaker> cnList = new ArrayList<>();
-        cnList.add(new MscSpeaker("普通话", "小燕", "xiaoyan", "青年女声", context.getResources().getDrawable(R.drawable.xiaoyan)));
-        cnList.add(new MscSpeaker("普通话", "小峰", "xiaofeng", "青年男声", context.getResources().getDrawable(R.drawable.xiaofeng)));
-        cnList.add(new MscSpeaker("普通话", "老孙", "vils", "中年男声", context.getResources().getDrawable(R.drawable.vils)));
-        cnList.add(new MscSpeaker("普通话", "楠楠", "vinn", "女童声", context.getResources().getDrawable(R.drawable.vinn)));
-        cnList.add(new MscSpeaker("普通话", "许小宝", "aisbabyxu", "男童声", context.getResources().getDrawable(R.drawable.aisbabyxu)));
-        cnList.add(new MscSpeaker("普通话", "小丸子", "xiaowanzi", "卡通人物", context.getResources().getDrawable(R.drawable.xiaowanzi)));
-        cnList.add(new MscSpeaker("普通话", "小新", "xiaoxin", "卡通人物", context.getResources().getDrawable(R.drawable.xiaoxin)));
+        cnList.add(new MscSpeaker("普通话", "小燕", "xiaoyan", "青年女声", context.getResources().getDrawable(R.drawable.xiaoyan), "cn"));
+        cnList.add(new MscSpeaker("普通话", "小峰", "xiaofeng", "青年男声", context.getResources().getDrawable(R.drawable.xiaofeng), "cn"));
+        cnList.add(new MscSpeaker("普通话", "老孙", "vils", "中年男声", context.getResources().getDrawable(R.drawable.vils), "cn"));
+        cnList.add(new MscSpeaker("普通话", "楠楠", "vinn", "女童声", context.getResources().getDrawable(R.drawable.vinn), "cn"));
+        cnList.add(new MscSpeaker("普通话", "许小宝", "aisbabyxu", "男童声", context.getResources().getDrawable(R.drawable.aisbabyxu), "cn"));
+        cnList.add(new MscSpeaker("普通话", "小丸子", "xiaowanzi", "卡通人物", context.getResources().getDrawable(R.drawable.xiaowanzi), "cn"));
+        cnList.add(new MscSpeaker("普通话", "小新", "xiaoxin", "卡通人物", context.getResources().getDrawable(R.drawable.xiaoxin),"cn"));
 
         ArrayList<MscSpeaker> dialectList = new ArrayList<>();
-        dialectList.add(new MscSpeaker("方言", "大龙", "dalong", "粤语", context.getResources().getDrawable(R.drawable.dalong)));
-        dialectList.add(new MscSpeaker("方言", "小梅", "xiaomei", "粤语", context.getResources().getDrawable(R.drawable.xiaomei)));
-        dialectList.add(new MscSpeaker("方言", "晓琳", "aisxlin", "台普", context.getResources().getDrawable(R.drawable.aisxlin)));
-        dialectList.add(new MscSpeaker("方言", "晓倩", "xiaoqian", "东北话", context.getResources().getDrawable(R.drawable.xiaoqian)));
-        dialectList.add(new MscSpeaker("方言", "小蓉", "aisxrong", "四川话", context.getResources().getDrawable(R.drawable.aisxrong)));
-        dialectList.add(new MscSpeaker("方言", "小坤", "xiaokun", "河南话", context.getResources().getDrawable(R.drawable.xiaokun)));
-        dialectList.add(new MscSpeaker("方言", "小强", "aisxqiang", "湖南话", context.getResources().getDrawable(R.drawable.aisxqiang)));
-        dialectList.add(new MscSpeaker("方言", "小英", "aisxying", "陕西话", context.getResources().getDrawable(R.drawable.aisxying)));
+        dialectList.add(new MscSpeaker("方言", "大龙", "dalong", "粤语", context.getResources().getDrawable(R.drawable.dalong), "cn"));
+        dialectList.add(new MscSpeaker("方言", "小梅", "xiaomei", "粤语", context.getResources().getDrawable(R.drawable.xiaomei), "cn"));
+        dialectList.add(new MscSpeaker("方言", "晓琳", "aisxlin", "台普", context.getResources().getDrawable(R.drawable.aisxlin), "cn"));
+        dialectList.add(new MscSpeaker("方言", "晓倩", "xiaoqian", "东北话", context.getResources().getDrawable(R.drawable.xiaoqian), "cn"));
+        dialectList.add(new MscSpeaker("方言", "小蓉", "aisxrong", "四川话", context.getResources().getDrawable(R.drawable.aisxrong), "cn"));
+        dialectList.add(new MscSpeaker("方言", "小坤", "xiaokun", "河南话", context.getResources().getDrawable(R.drawable.xiaokun), "cn"));
+        dialectList.add(new MscSpeaker("方言", "小强", "aisxqiang", "湖南话", context.getResources().getDrawable(R.drawable.aisxqiang), "cn"));
+        dialectList.add(new MscSpeaker("方言", "小英", "aisxying", "陕西话", context.getResources().getDrawable(R.drawable.aisxying), "cn"));
 
         ArrayList<MscSpeaker> foreignList = new ArrayList<>();
-        foreignList.add(new MscSpeaker("外语", "凯瑟琳", "aiscatherine", "英语", context.getResources().getDrawable(R.drawable.aiscatherine)));
-        foreignList.add(new MscSpeaker("外语", "亨利", "henry", "英语", context.getResources().getDrawable(R.drawable.henry)));
-        foreignList.add(new MscSpeaker("外语", "玛丽安", "mariane", "法语", context.getResources().getDrawable(R.drawable.mariane)));
-        foreignList.add(new MscSpeaker("外语", "阿拉本", "allabent", "俄语", context.getResources().getDrawable(R.drawable.allabent)));
-        foreignList.add(new MscSpeaker("外语", "加芙列拉", "gabriela", "西班牙语", context.getResources().getDrawable(R.drawable.gabriela)));
-        foreignList.add(new MscSpeaker("外语", "艾伯哈", "abha", "印地语", context.getResources().getDrawable(R.drawable.abha)));
-        foreignList.add(new MscSpeaker("外语", "小云", "xiaoyun", "越南语", context.getResources().getDrawable(R.drawable.xiaoyun)));
+        foreignList.add(new MscSpeaker("外语", "凯瑟琳", "aiscatherine", "英语", context.getResources().getDrawable(R.drawable.aiscatherine), "en"));
+        foreignList.add(new MscSpeaker("外语", "亨利", "henry", "英语", context.getResources().getDrawable(R.drawable.henry), "en"));
+        foreignList.add(new MscSpeaker("外语", "玛丽安", "mariane", "法语", context.getResources().getDrawable(R.drawable.mariane), "fra"));
+        foreignList.add(new MscSpeaker("外语", "阿拉本", "allabent", "俄语", context.getResources().getDrawable(R.drawable.allabent), "ru"));
+        foreignList.add(new MscSpeaker("外语", "加芙列拉", "gabriela", "西班牙语", context.getResources().getDrawable(R.drawable.gabriela), "spa"));
+//        foreignList.add(new MscSpeaker("外语", "艾伯哈", "abha", "印地语", context.getResources().getDrawable(R.drawable.abha),"cn"));
+        foreignList.add(new MscSpeaker("外语", "小云", "xiaoyun", "越南语", context.getResources().getDrawable(R.drawable.xiaoyun), "vie"));
 
         ArrayList<SpeakerType> allList = new ArrayList<>();
         allList.add(new SpeakerType("普通话", cnList));
@@ -147,6 +147,14 @@ public class MscSpeakUtils {
 
         return 0;
 
+    }
+
+    public static String getSpeakerLanguage(Context context) {
+        return (String) SpfUtils.get(context, "current_speaker_language", "cn");
+    }
+
+    public static void setSpeakerLanguage(Context context, String language) {
+        SpfUtils.put(context, "current_speaker_language", language);
     }
 
 }

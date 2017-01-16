@@ -7,15 +7,15 @@ import android.graphics.drawable.Drawable;
  */
 public class MscSpeaker {
 
-    public MscSpeaker(String type,String name,String config,String des, Drawable img){
+    public MscSpeaker(String type, String name, String config, String des, Drawable img, String language) {
         this.type = type;
         this.name = name;
         this.config = config;
         this.des = des;
         this.img = img;
+        this.language = language;
     }
 
-    //语言种类
     private String type;
 
     private String name;
@@ -26,6 +26,7 @@ public class MscSpeaker {
 
     private Drawable img;
 
+    private String language;
 
     public String getType() {
         return type;
@@ -65,6 +66,14 @@ public class MscSpeaker {
 
     public void setImg(Drawable img) {
         this.img = img;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
 }

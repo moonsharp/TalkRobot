@@ -25,8 +25,8 @@ import kk.qisheng.talkrobot.R;
 import kk.qisheng.talkrobot.config.AppConfig;
 import kk.qisheng.talkrobot.db.DaoHelper;
 import kk.qisheng.talkrobot.db.TalkMsg;
-import kk.qisheng.talkrobot.mvp.contact.JuheContact;
-import kk.qisheng.talkrobot.mvp.presenter.JuhePresenter;
+import kk.qisheng.talkrobot.mvp.contact.TalkViewContact;
+import kk.qisheng.talkrobot.mvp.presenter.ApiPresenter;
 import kk.qisheng.talkrobot.ui.adapter.TalkListAdapter;
 import kk.qisheng.talkrobot.ui.view.LoadingDialog;
 import kk.qisheng.talkrobot.utils.LogUtils;
@@ -35,6 +35,9 @@ import kk.qisheng.talkrobot.utils.MscSpeakUtils;
 import kk.qisheng.talkrobot.utils.NetUtils;
 import kk.qisheng.talkrobot.utils.ToastUtil;
 
+/**
+ * Created by KkQiSheng on 2017/1/11.
+ */
 public class TalkActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
 
     private ListView lvTalk;
@@ -49,7 +52,7 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
     private String mMyMsg;
     private long mFirstTime;
     private LoadingDialog mLoading;
-    private JuhePresenter mPresenter;
+    private ApiPresenter mPresenter;
     private DaoHelper<TalkMsg> mDaoHelper;
 
     @Override
@@ -86,13 +89,26 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initPresenter() {
-        mPresenter = new JuhePresenter(new JuheContact() {
+        mPresenter = new ApiPresenter(new TalkViewContact() {
             @Override
             public void onGetRobotResponseSuccess(String info) {
                 toggleLoading();
-                addMsg(AppConfig.TALK_WHO_ROBOT, info);
+                if (!MscSpeakUtils.getSpeakerLanguage(TalkActivity.this).equals("cn")
+                        && !info.equals(AppConfig.ERROR_RESPONSE_NET) && !info.equals(AppConfig.ERROR_RESPONSE_API)) {
+                    translateMsg(info, MscSpeakUtils.getSpeakerLanguage(TalkActivity.this));
+                } else {
+                    addMsg(AppConfig.TALK_WHO_ROBOT, info);
+                    etInput.setText("");
+                    MscSpeakUtils.speak(TalkActivity.this, info);
+                }
+            }
+
+            @Override
+            public void onTransMsgSuccess(String trans) {
+                toggleLoading();
+                addMsg(AppConfig.TALK_WHO_ROBOT, trans);
                 etInput.setText("");
-                MscSpeakUtils.speak(TalkActivity.this, info);
+                MscSpeakUtils.speak(TalkActivity.this, trans);
             }
         });
     }
@@ -131,6 +147,16 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
         addMsg(AppConfig.TALK_WHO_ME, msg);
         toggleLoading();
         mPresenter.getRobotResponse(msg);
+    }
+
+    /**
+     * 翻译消息
+     *
+     * @param msg
+     */
+    private void translateMsg(String msg, String to) {
+        toggleLoading();
+        mPresenter.getTransMsg(msg, to);
     }
 
 
@@ -189,7 +215,6 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
                 return lhs.getTime() - rhs.getTime();
             }
         });
-        LogUtils.d("notifyDataChange: " + mTalkList.size());
         mAdapter.refreshData(list);
         if (mTalkList.size() > 0) {
             lvTalk.setSelection(mTalkList.size() - 1);

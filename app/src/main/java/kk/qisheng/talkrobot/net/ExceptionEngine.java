@@ -9,6 +9,7 @@ import org.json.JSONException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
+import kk.qisheng.talkrobot.config.AppConfig;
 import retrofit2.adapter.rxjava.HttpException;
 
 /**
@@ -31,7 +32,7 @@ public class ExceptionEngine {
 
         if (e instanceof UnknownHostException) {
             ex = new ApiException(e, ERROR.HTTP_ERROR);
-            ex.message = "你的网络开小差了，检查一下吧...";  //网络错误
+            ex.message = AppConfig.ERROR_RESPONSE_NET;  //网络错误
             return ex;
 
         } else if (e instanceof HttpException) {             //HTTP错误
@@ -47,7 +48,7 @@ public class ExceptionEngine {
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
                 default:
-                    ex.message = "你的网络开小差了，检查一下吧...";  //均视为网络错误
+                    ex.message = AppConfig.ERROR_RESPONSE_NET;  //均视为网络错误
                     break;
             }
             return ex;
@@ -56,24 +57,24 @@ public class ExceptionEngine {
             ServerException resultException = (ServerException) e;
             ex = new ApiException(resultException, resultException.code);
 //            ex.message = resultException.message;  //接口返回的错误信息
-            ex.message = "这个问题我无法回答哟~";     //接口返回错误时，统一让机器人如此回答
+            ex.message = AppConfig.ERROR_RESPONSE_API;
             return ex;
 
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
             ex = new ApiException(e, ERROR.PARSE_ERROR);
-            ex.message = "这个问题我无法回答哟~";            //解析错误
+            ex.message = AppConfig.ERROR_RESPONSE_API;            //解析错误
             return ex;
 
         } else if (e instanceof ConnectException) {
             ex = new ApiException(e, ERROR.NETWORD_ERROR);
-            ex.message = "你的网络开小差了，检查一下吧...";  //连接失败
+            ex.message = AppConfig.ERROR_RESPONSE_NET;  //连接失败
             return ex;
 
         } else {
             ex = new ApiException(e, ERROR.UNKNOWN);
-            ex.message = "这个问题我无法回答哟~";          //未知错误
+            ex.message = AppConfig.ERROR_RESPONSE_API;          //未知错误
             return ex;
         }
     }

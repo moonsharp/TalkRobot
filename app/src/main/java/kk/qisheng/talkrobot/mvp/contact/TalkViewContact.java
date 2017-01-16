@@ -3,13 +3,14 @@ package kk.qisheng.talkrobot.mvp.contact;
 /**
  * Created by KkQiSheng on 2017/1/11.
  */
-public class JuheContact {
+public class TalkViewContact {
 
     public void onGetRobotResponseSuccess(String info) {
 
     }
 
-    public void onGetRobotResponseFailure(String msg) {
+
+    public void onTransMsgSuccess(String trans) {
 
     }
 

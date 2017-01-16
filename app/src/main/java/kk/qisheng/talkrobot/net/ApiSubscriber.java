@@ -5,7 +5,7 @@ import rx.Subscriber;
 /**
  * Created by KkQisheng on 2017/1/14.
  */
-public abstract class JuheSubscriber<T> extends Subscriber<T> {
+public abstract class ApiSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
