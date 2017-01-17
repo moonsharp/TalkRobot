@@ -19,7 +19,7 @@
             android:layout_centerInParent="true"
             android:text="聊天机器人"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/iv_setting"

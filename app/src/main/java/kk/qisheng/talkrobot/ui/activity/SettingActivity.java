@@ -41,6 +41,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         ivMyHeader = (ImageView) findViewById(R.id.iv_my_header);
         ivRobotHeader = (ImageView) findViewById(R.id.iv_robot_header);
 
+        findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.rl_change_speaker).setOnClickListener(this);
         findViewById(R.id.rl_my_hdader).setOnClickListener(this);
         findViewById(R.id.rl_robot_hdader).setOnClickListener(this);
@@ -61,6 +62,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+
             case R.id.rl_change_speaker:
                 goSpeakerListActivity();
                 break;

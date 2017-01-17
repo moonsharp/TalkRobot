@@ -8,14 +8,32 @@
     android:orientation="vertical"
     tools:context="kk.qisheng.talkrobot.ui.activity.SettingActivity">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_alignParentTop="true"
         android:background="@color/top_bar"
-        android:gravity="center"
-        android:text="设置"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/arrow_back" />
+    </RelativeLayout>
 
     <include layout="@layout/include_common_line3" />
 
@@ -30,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="设置机器人声音"
+            android:text="机器人声音"
             android:textSize="16sp" />
 
         <TextView
@@ -125,6 +143,7 @@
 
 
     <include layout="@layout/include_common_line3" />
+
     <TextView
         android:id="@+id/tv_clear"
         android:layout_width="match_parent"

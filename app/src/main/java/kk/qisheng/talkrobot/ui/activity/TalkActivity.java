@@ -55,6 +55,9 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
     private ApiPresenter mPresenter;
     private DaoHelper<TalkMsg> mDaoHelper;
 
+    private int page = 1;
+    private static final int page_size = 100;
+
     @Override
     public void setContentLayout() {
         setContentView(R.layout.activity_talk);
@@ -82,10 +85,22 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
     private void initData() {
         mDaoHelper = new DaoHelper<>();
         mDbList = (ArrayList<TalkMsg>) mDaoHelper.listAll(TalkMsg.class);
-        if (mDbList != null && mDbList.size() > 0) mTalkList = mDbList;
+        getDbList(page);
         mAdapter = new TalkListAdapter(this, mTalkList);
         lvTalk.setAdapter(mAdapter);
         notifyDataChange(mTalkList);
+    }
+
+    private void getDbList(int page) {
+        if (mDbList == null) return;
+
+        int size = page * page_size;
+        if (mDbList.size() > size) {
+
+        } else {
+            mTalkList = mDbList;
+        }
+
     }
 
     private void initPresenter() {

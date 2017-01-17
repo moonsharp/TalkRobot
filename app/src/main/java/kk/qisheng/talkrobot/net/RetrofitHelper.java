@@ -63,14 +63,11 @@ public class RetrofitHelper {
         if (mService == null) {
             new RetrofitHelper(UrlConfig.BAIDU_TRANSLATE_BASE_URL);
         }
-
         int salt = new Random().nextInt(10) + 1;
         String sign = getTransSign(info, salt);
-
         return mService.getTransMsg(info, "auto", to, AppConfig.BAIDU_TRANSLATE_APP_ID, salt, sign);
     }
 
-    //拼接appid=2015063000000001+q=apple+salt=1435660288+密钥=12345678
     private String getTransSign(String info, int salt) {
         String source = AppConfig.BAIDU_TRANSLATE_APP_ID + info + salt + AppConfig.BAIDU_TRANSLATE_APP_SECRET;
         String md5 = MD5Utils.getMd5Value(source);

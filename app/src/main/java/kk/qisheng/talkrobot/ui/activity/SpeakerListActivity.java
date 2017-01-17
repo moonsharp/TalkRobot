@@ -1,5 +1,6 @@
 package kk.qisheng.talkrobot.ui.activity;
 
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import kk.qisheng.talkrobot.R;
@@ -24,6 +25,12 @@ public class SpeakerListActivity extends BaseActivity {
 
     private void initData() {
         mAdapter = new SpeakerListAdapter(this, MscSpeakUtils.initSpeaker(this));
+        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
