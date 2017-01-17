@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="选择一个声音"
+            android:text="机器人声音"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

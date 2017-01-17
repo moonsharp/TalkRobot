@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    android:background="@color/main_bg">
+    android:background="@color/main_bg"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -79,13 +79,20 @@
             android:src="@drawable/microphone" />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lv_talk"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_talk"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/ll_bottom"
-        android:layout_below="@id/rl_title"
-        android:divider="@null"
-        android:fadingEdge="none" />
+        android:layout_below="@id/rl_title">
+
+        <ListView
+            android:id="@+id/lv_talk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:fadingEdge="none" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

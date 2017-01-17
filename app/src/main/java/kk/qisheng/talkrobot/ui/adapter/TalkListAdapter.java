@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import kk.qisheng.talkrobot.R;
 import kk.qisheng.talkrobot.config.AppConfig;
@@ -26,16 +27,16 @@ import kk.qisheng.talkrobot.utils.HeaderUtils;
 public class TalkListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<TalkMsg> mData = new ArrayList<>();
+    private List<TalkMsg> mData = new ArrayList<>();
 
 
-    public TalkListAdapter(Context context, ArrayList<TalkMsg> list) {
+    public TalkListAdapter(Context context, List<TalkMsg> list) {
         super();
         this.mContext = context;
         this.mData = list;
     }
 
-    public void refreshData(ArrayList<TalkMsg> list) {
+    public void refreshData(List<TalkMsg> list) {
         mData = list;
         notifyDataSetChanged();
     }

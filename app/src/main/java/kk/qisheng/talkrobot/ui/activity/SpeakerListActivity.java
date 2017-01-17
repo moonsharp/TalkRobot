@@ -1,5 +1,8 @@
 package kk.qisheng.talkrobot.ui.activity;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -10,14 +13,15 @@ import kk.qisheng.talkrobot.utils.MscSpeakUtils;
 /**
  * Created by KkQiSheng on 2017/1/12.
  */
-public class SpeakerListActivity extends BaseActivity {
+public class SpeakerListActivity extends AppCompatActivity {
 
     private ExpandableListView eLvSpeaker;
 
     private SpeakerListAdapter mAdapter;
 
     @Override
-    public void setContentLayout() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speaker_list);
         initData();
         initView();

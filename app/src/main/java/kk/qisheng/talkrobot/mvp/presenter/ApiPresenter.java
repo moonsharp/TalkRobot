@@ -26,7 +26,7 @@ public class ApiPresenter {
         this.mContact = contact;
     }
 
-    public void getRobotResponse(String info) {
+    public void getRobotResponse(final String info) {
         RetrofitHelper.getInstance(UrlConfig.JUHE_BASE_URL)
                 .getRobotResponse(info)
                 .subscribeOn(Schedulers.io())
@@ -45,13 +45,13 @@ public class ApiPresenter {
 
                     @Override
                     public void onNext(JuheResult juheResult) {
-                        String info = AppConfig.ERROR_RESPONSE_API;
+                        String result = AppConfig.ERROR_RESPONSE_API;
                         if (juheResult != null && !TextUtils.isEmpty(juheResult.getText())) {
-                            info = juheResult.getText();
+                            result = juheResult.getText();
                         }
 
                         if (mContact != null) {
-                            mContact.onGetRobotResponseSuccess(info);
+                            mContact.onGetRobotResponseSuccess(result);
                         }
                     }
                 });

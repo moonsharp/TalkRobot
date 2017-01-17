@@ -2,6 +2,11 @@ package kk.qisheng.talkrobot.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,6 +25,7 @@ import com.iflytek.cloud.ui.RecognizerDialogListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import kk.qisheng.talkrobot.R;
 import kk.qisheng.talkrobot.config.AppConfig;
@@ -38,15 +44,15 @@ import kk.qisheng.talkrobot.utils.ToastUtil;
 /**
  * Created by KkQiSheng on 2017/1/11.
  */
-public class TalkActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
+public class TalkActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private ListView lvTalk;
     private EditText etInput;
     private TextView tvSend;
     private ImageView ivSpeak;
+    private SwipeRefreshLayout srlRefresh;
 
     private TalkListAdapter mAdapter;
-    private ArrayList<TalkMsg> mTalkList = new ArrayList<>();
     private ArrayList<TalkMsg> mDbList = new ArrayList<>();
 
     private String mMyMsg;
@@ -56,12 +62,12 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
     private DaoHelper<TalkMsg> mDaoHelper;
 
     private int page = 1;
-    private static final int page_size = 100;
+    private static final int PAGE_SIZE = 20;
 
     @Override
-    public void setContentLayout() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_talk);
-
         initView();
         initData();
         initPresenter();
@@ -75,30 +81,51 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
         etInput = (EditText) findViewById(R.id.et_input_msg);
         tvSend = (TextView) findViewById(R.id.tv_send);
         ivSpeak = (ImageView) findViewById(R.id.iv_speak);
+        srlRefresh = (SwipeRefreshLayout) findViewById(R.id.srl_talk);
 
         etInput.addTextChangedListener(this);
         tvSend.setOnClickListener(this);
         ivSpeak.setOnClickListener(this);
         findViewById(R.id.iv_setting).setOnClickListener(this);
+
+        srlRefresh.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_blue_light, android.R.color.holo_orange_light);
+        srlRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        page++;
+                        notifyDataChange(getDbList(page), false);
+                        srlRefresh.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
 
     private void initData() {
         mDaoHelper = new DaoHelper<>();
         mDbList = (ArrayList<TalkMsg>) mDaoHelper.listAll(TalkMsg.class);
-        getDbList(page);
-        mAdapter = new TalkListAdapter(this, mTalkList);
+        if (mDbList == null) {
+            mDbList = new ArrayList<>();
+        }
+        mAdapter = new TalkListAdapter(this, getDbList(page));
         lvTalk.setAdapter(mAdapter);
-        notifyDataChange(mTalkList);
+        notifyDataChange(getDbList(page), true);
     }
 
-    private void getDbList(int page) {
-        if (mDbList == null) return;
-
-        int size = page * page_size;
-        if (mDbList.size() > size) {
-
+    private List<TalkMsg> getDbList(int page) {
+        int size = page * PAGE_SIZE;
+        int len = mDbList.size();
+        if (len > size) {
+            List<TalkMsg> subList = mDbList.subList(len - size, len);
+            for (TalkMsg talkMsg : subList) {
+                LogUtils.d("talkMsg: " + talkMsg.getMsg());
+            }
+            return subList;
         } else {
-            mTalkList = mDbList;
+            return mDbList;
         }
 
     }
@@ -148,9 +175,10 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //清空记录
         if (requestCode == 0x001 && resultCode == Activity.RESULT_OK) {
-            mTalkList = new ArrayList<>();
-            notifyDataChange(mTalkList);
+            mDbList = new ArrayList<>();
+            notifyDataChange(mDbList, true);
         }
     }
 
@@ -218,12 +246,12 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
         talkMsg.setMsg(msg);
         talkMsg.setTime((int) (System.currentTimeMillis() / 1000));
 
-        mTalkList.add(talkMsg);
-        notifyDataChange(mTalkList);
         mDaoHelper.insert(talkMsg);
+        mDbList.add(talkMsg);
+        notifyDataChange(getDbList(page), true);
     }
 
-    private void notifyDataChange(ArrayList<TalkMsg> list) {
+    private void notifyDataChange(List<TalkMsg> list, boolean toBottom) {
         Collections.sort(list, new Comparator<TalkMsg>() {
             @Override
             public int compare(TalkMsg lhs, TalkMsg rhs) {
@@ -231,8 +259,8 @@ public class TalkActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
         mAdapter.refreshData(list);
-        if (mTalkList.size() > 0) {
-            lvTalk.setSelection(mTalkList.size() - 1);
+        if (toBottom && getDbList(page).size() > 0) {
+            lvTalk.setSelection(getDbList(page).size() - 1);
         }
     }
 
