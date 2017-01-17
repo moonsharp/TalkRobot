@@ -157,4 +157,12 @@ public class MscSpeakUtils {
         SpfUtils.put(context, "current_speaker_language", language);
     }
 
+    public static String getSpeakerDes(Context context) {
+        return (String) SpfUtils.get(context, "current_speaker_des", "卡通人物");
+    }
+
+    public static void setSpeakerDes(Context context, String des) {
+        SpfUtils.put(context, "current_speaker_des", des);
+    }
+
 }

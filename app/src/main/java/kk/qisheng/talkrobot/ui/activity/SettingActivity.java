@@ -137,7 +137,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        tvSpaker.setText(MscSpeakUtils.getSpeakerName(this));
+        tvSpaker.setText(MscSpeakUtils.getSpeakerName(this) + " (" + MscSpeakUtils.getSpeakerDes(this) + ")");
     }
 
 }

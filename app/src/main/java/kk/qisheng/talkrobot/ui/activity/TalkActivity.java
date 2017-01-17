@@ -102,6 +102,7 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
                 }, 1000);
             }
         });
+        srlRefresh.setEnabled(false);
     }
 
     private void initData() {
@@ -120,9 +121,6 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
         int len = mDbList.size();
         if (len > size) {
             List<TalkMsg> subList = mDbList.subList(len - size, len);
-            for (TalkMsg talkMsg : subList) {
-                LogUtils.d("talkMsg: " + talkMsg.getMsg());
-            }
             return subList;
         } else {
             return mDbList;
@@ -261,6 +259,10 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter.refreshData(list);
         if (toBottom && getDbList(page).size() > 0) {
             lvTalk.setSelection(getDbList(page).size() - 1);
+        }
+
+        if (list.size() > PAGE_SIZE - 1) {
+            srlRefresh.setEnabled(true);
         }
     }
 
