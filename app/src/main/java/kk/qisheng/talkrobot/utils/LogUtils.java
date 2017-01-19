@@ -14,7 +14,7 @@ public class LogUtils {
     /**
      * 是否需要打印bug，可以在application的onCreate函数里面初始化
      */
-    public static boolean isDebug = false;
+    public static boolean isDebug = true;
 
     private LogUtils() {
         /* cannot be instantiated */

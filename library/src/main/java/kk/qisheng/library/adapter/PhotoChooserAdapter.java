@@ -68,8 +68,8 @@ public class PhotoChooserAdapter extends RecyclerView.Adapter<PhotoChooserAdapte
         PhotoResult photo = new PhotoResult();
         if (position > 0) {
 //            photo = mDatas.get(position - 1);
-            photo = mDatas.get(position);
         }
+        photo = mDatas.get(position);
 
         final PhotoResult photoResult = photo;
 

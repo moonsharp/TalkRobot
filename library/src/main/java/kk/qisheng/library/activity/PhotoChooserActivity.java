@@ -4,14 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,13 +37,17 @@ import kk.qisheng.library.callback.PhotoSearchCallback;
 import kk.qisheng.library.utils.PhotoUtil;
 import kk.qisheng.library.utils.ProgressDialogUtil;
 
-public class PhotoChooserActivity extends Activity implements OnPhotoSelecteListener, OnPhotoClickListener, OnCameraClickListener {
+public class PhotoChooserActivity extends AppCompatActivity implements OnPhotoSelecteListener, OnPhotoClickListener, OnCameraClickListener, View.OnClickListener {
     private RecyclerView recyclerView;
     private TextView tvSelectedCount, tvFinish;
+    private TextView tvDone;
+    private ImageView ivShow;
 
     private PhotoChooserAdapter mAdapter;
     private ArrayList<PhotoResult> mAllDatas = new ArrayList<>();
     private File mCameraFile;
+    private PhotoResult mPhotoResult;
+    private String mExtraPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +57,11 @@ public class PhotoChooserActivity extends Activity implements OnPhotoSelecteList
         initData();
         initView();
         setSelectedCount(0);
+        showPreview(mExtraPath);
     }
 
     private void initData() {
+        mExtraPath = getIntent().getStringExtra("header_path");
         mAdapter = new PhotoChooserAdapter(this, mAllDatas);
         mAdapter.setPhotoListener(this);
         mAdapter.setCameraListener(this);
@@ -77,6 +88,8 @@ public class PhotoChooserActivity extends Activity implements OnPhotoSelecteList
         recyclerView = (RecyclerView) findViewById(R.id.rv_photos);
         tvSelectedCount = (TextView) findViewById(R.id.tv_selected_count);
         tvFinish = (TextView) findViewById(R.id.tv_finish);
+        tvDone = (TextView) findViewById(R.id.tv_done);
+        ivShow = (ImageView) findViewById(R.id.iv_show);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(PhotoChooser.COLUMN, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
@@ -84,26 +97,29 @@ public class PhotoChooserActivity extends Activity implements OnPhotoSelecteList
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        findViewById(R.id.iv_back2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        findViewById(R.id.iv_back).setOnClickListener(this);
+        findViewById(R.id.tv_finish).setOnClickListener(this);
+        findViewById(R.id.iv_back2).setOnClickListener(this);
+        tvDone.setOnClickListener(this);
 
-        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    }
 
-        findViewById(R.id.tv_finish).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleFinish(mAdapter.getSelectedPhotos());
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.iv_back || id == R.id.iv_back2) {
+            finish();
+        }
+        if (id == R.id.tv_finish) {
+            handleFinish(mAdapter.getSelectedPhotos());
+        }
+
+        if (id == R.id.tv_done) {
+            ArrayList<PhotoResult> list = new ArrayList<>();
+            list.add(mPhotoResult);
+            handleFinish(list);
+        }
+
     }
 
     private void handleFinish(ArrayList<PhotoResult> photos) {
@@ -128,9 +144,17 @@ public class PhotoChooserActivity extends Activity implements OnPhotoSelecteList
 //        intent.putExtra("photo_index", mAdapter.mDatas.indexOf(photoResult));
 //        startActivityForResult(intent, 0x101);
 
-        ArrayList<PhotoResult> list = new ArrayList<>();
-        list.add(photoResult);
-        handleFinish(list);
+        mPhotoResult = photoResult;
+        showPreview(photoResult.getPhotoPath());
+    }
+
+    private void showPreview(String path) {
+        if (TextUtils.isEmpty(path) || !new File(path).exists()) {
+            return;
+        }
+        ivShow.setTranslationY(0f);
+        tvDone.setVisibility(View.VISIBLE);
+        Glide.with(this).load(path).into(ivShow);
     }
 
     @Override

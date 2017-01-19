@@ -20,6 +20,8 @@ import kk.qisheng.talkrobot.bean.SpeakerType;
 public class MscSpeakUtils {
 
     public static void speak(Context context, final String msg) {
+        LogUtils.d("MscSpeakUtils speak: " + msg);
+
         //1.创建SpeechSynthesizer对象, 第二个参数：本地合成时传InitListener
         SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer(context, null);
 

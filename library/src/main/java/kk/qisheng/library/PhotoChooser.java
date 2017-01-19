@@ -2,6 +2,7 @@ package kk.qisheng.library;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,8 +45,11 @@ public class PhotoChooser {
     }
 
 
-    public void getPhotos(Context context, OnGetPhotoCallback callback) {
+    public void getPhotos(Context context, String extra, OnGetPhotoCallback callback) {
         Intent intent = new Intent(context, PhotoChooserActivity.class);
+        if (!TextUtils.isEmpty(extra)) {
+            intent.putExtra("header_path", extra);
+        }
         context.startActivity(intent);
         mCallback = callback;
     }

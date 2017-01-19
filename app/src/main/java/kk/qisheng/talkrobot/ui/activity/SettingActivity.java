@@ -94,7 +94,16 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getHeader(final int who) {
-        PhotoChooser.getInstance().getPhotos(this, new OnGetPhotoCallback() {
+        File headerFile = HeaderUtils.getRobotHeader(this);
+        if (who == AppConfig.TALK_WHO_ME) {
+            headerFile = HeaderUtils.getMyHeader(this);
+        }
+        String extraPath = "";
+        if (headerFile != null) {
+            extraPath = headerFile.getAbsolutePath();
+        }
+
+        PhotoChooser.getInstance().getPhotos(this, extraPath, new OnGetPhotoCallback() {
             @Override
             public void onGetPhotos(ArrayList<PhotoResult> list) {
                 if (list != null && list.size() > 0) {

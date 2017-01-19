@@ -35,6 +35,7 @@ import kk.qisheng.talkrobot.mvp.contact.TalkViewContact;
 import kk.qisheng.talkrobot.mvp.presenter.ApiPresenter;
 import kk.qisheng.talkrobot.ui.adapter.TalkListAdapter;
 import kk.qisheng.talkrobot.ui.view.LoadingDialog;
+import kk.qisheng.talkrobot.utils.CircularAnimUtil;
 import kk.qisheng.talkrobot.utils.LogUtils;
 import kk.qisheng.talkrobot.utils.MscListenUtils;
 import kk.qisheng.talkrobot.utils.MscSpeakUtils;
@@ -132,7 +133,7 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
         mPresenter = new ApiPresenter(new TalkViewContact() {
             @Override
             public void onGetRobotResponseSuccess(String info) {
-                toggleLoading();
+                toggleLoading(false);
                 if (!MscSpeakUtils.getSpeakerLanguage(TalkActivity.this).equals("cn")
                         && !info.equals(AppConfig.ERROR_RESPONSE_NET) && !info.equals(AppConfig.ERROR_RESPONSE_API)) {
                     translateMsg(info, MscSpeakUtils.getSpeakerLanguage(TalkActivity.this));
@@ -145,7 +146,7 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTransMsgSuccess(String trans) {
-                toggleLoading();
+                toggleLoading(false);
                 addMsg(AppConfig.TALK_WHO_ROBOT, trans);
                 etInput.setText("");
                 MscSpeakUtils.speak(TalkActivity.this, trans);
@@ -164,7 +165,8 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
                 showSpeakDialog();
                 break;
             case R.id.iv_setting:
-                startActivityForResult(new Intent(this, SettingActivity.class), 0x001);
+                Intent intent = new Intent(this, SettingActivity.class);
+                CircularAnimUtil.startActivityForResult(this, intent, 0x001, v, R.color.colorPrimary);
                 break;
 
         }
@@ -186,7 +188,7 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
     private void sendMsg(String msg) {
         if (TextUtils.isEmpty(msg)) return;
         addMsg(AppConfig.TALK_WHO_ME, msg);
-        toggleLoading();
+        toggleLoading(true);
         mPresenter.getRobotResponse(msg);
     }
 
@@ -196,7 +198,7 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
      * @param msg
      */
     private void translateMsg(String msg, String to) {
-        toggleLoading();
+        toggleLoading(true);
         mPresenter.getTransMsg(msg, to);
     }
 
@@ -281,14 +283,13 @@ public class TalkActivity extends AppCompatActivity implements View.OnClickListe
         tvSend.setEnabled(!TextUtils.isEmpty(mMyMsg));
     }
 
-    private void toggleLoading() {
+    private void toggleLoading(boolean isShow) {
         if (mLoading == null) return;
-        if (mLoading.isShowing()) {
-            mLoading.dismiss();
-        } else {
+        if (isShow) {
             mLoading.show(AppConfig.LOADING_TIME_OUT);
+        } else {
+            mLoading.dismiss();
         }
-
     }
 
     @Override
